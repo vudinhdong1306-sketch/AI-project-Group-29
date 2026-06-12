@@ -44,7 +44,7 @@ class OSMParser:
             lon = float(node.get('lon'))
             self.nodes[node_id] = (lat, lon)
 
-        # Bước 2: Thu thập Ways
+        # Bước 2: Thu thập Ways (Xử lý dữ liệu đường 1 chiều, 2 chiều)
         way_count = 0
         for way in root.findall('way'):
             tags = {tag.get('k'): tag.get('v') for tag in way.findall('tag')}
