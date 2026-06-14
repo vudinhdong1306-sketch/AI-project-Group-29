@@ -8,8 +8,8 @@ hbt-routing-system/
 │   ├── raw/                    # Chứa file .osm gốc 
 │   └── processed/              # Dữ liệu đồ thị sau khi parse 
 │
-├── src/                        # Mã nguồn Backend 
-│   ├── data_processing/        # Lớp xử lý dữ liệu
+├── src/                        # Mã nguồn Backend
+│   ├── data_processing/        # Lớp xử lý dữ liệu 
 │   │   ├── osm_parser.py       # Chuyển đổi dữ liệu XML sang cấu trúc đồ thị (Graph)
 │   │   ├── spatial_index.py    # Xử lý chỉ mục không gian (KD-Tree) để truy vấn tọa độ
 │   │   └── traffic_manager.py  # Quản lý trạng thái giao thông động (Tắc đường, Ngập lụt)
@@ -34,7 +34,7 @@ hbt-routing-system/
 │   │   ├── api.js              # Cấu hình Axios gọi API xuống Backend
 │   │   └── App.js              # Khung giao diện chính và logic điều khiển trạng thái
 │   └── package.json            # Danh sách thư viện Node.js
-├── get_data.py                 # Lấy file dữ liệu csv
-├── .gitignore                  # Bỏ qua các file môi trường (venv, node_modules)
+├── get_data.py                 # Lấy file dữ liệu CSV
+├── .gitignore                  # Bỏ qua các file môi trường
 ├── requirements.txt            # Danh sách thư viện Python cần thiết (FastAPI, Uvicorn, v.v.)
 └── README.md                   # Tài liệu hướng dẫn dự án
