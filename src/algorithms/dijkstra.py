@@ -23,12 +23,11 @@ class DijkstraSolver:
     def solve(self, start_node, goal_node, cost_fn=None, return_history=False):
         """
         Tìm đường đi ngắn nhất bằng thuật toán Dijkstra.
-        - return_history (bool): Nếu True, trả về (path, visited_nodes) để vẽ animation hoặc thống kê.
         """
         # Kiểm tra tính hợp lệ của điểm đầu/cuối
         if start_node not in self.nodes or goal_node not in self.nodes:
             print(f"❌ Dijkstra Lỗi: Node {start_node} hoặc {goal_node} không tồn tại trong đồ thị.")
-            return (None, []) if return_history else None
+            return (None, 0) if return_history else None
 
         # Priority Queue lưu trữ (chi_phí_g, node_hiện_tại)
         # Dijkstra luôn ưu tiên mở rộng đỉnh có chi phí từ điểm bắt đầu là nhỏ nhất
@@ -45,8 +44,8 @@ class DijkstraSolver:
         # Tập hợp các đỉnh đã chốt (không cần duyệt lại)
         closed_set = set()
         
-        # Danh sách lưu thứ tự các đỉnh đã được duyệt (Dùng cho thống kê số đỉnh đã quét)
-        visited_order = [] 
+        # Biến đếm số lượng đỉnh ĐÃ RÚT RA khỏi hàng đợi để xử lý
+        visited_count = 0 
 
         while open_set:
             # Lấy ra đỉnh có chi phí nhỏ nhất hiện tại
@@ -56,14 +55,14 @@ class DijkstraSolver:
             if current in closed_set:
                 continue
                 
-            # Ghi nhận đỉnh đang được quét
+            # ĐÃ SỬA: Dùng đúng cờ return_history
             if return_history:
-                visited_order.append(current)
+                visited_count += 1
 
             # 🎯 ĐIỀU KIỆN DỪNG: Đã đến đích
             if current == goal_node:
                 path = self._reconstruct_path(came_from, current)
-                return (path, visited_order) if return_history else path
+                return (path, visited_count) if return_history else path
 
             # Đánh dấu đỉnh này đã xử lý xong
             closed_set.add(current)
@@ -102,7 +101,7 @@ class DijkstraSolver:
 
         # Nếu vòng lặp kết thúc mà không tìm thấy đích (Bị cô lập do ngập lụt tứ phía)
         if return_history:
-            return None, visited_order
+            return None, visited_count
         return None
 
     def _reconstruct_path(self, came_from, current):

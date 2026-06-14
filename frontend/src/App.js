@@ -94,7 +94,9 @@ function App() {
         animatePath(data.path); 
         
         // Lưu metadata thống kê để hiển thị
-        setRouteStats(data.metadata);
+        setRouteStats({
+          visited_count: data.visited_count || data.visited_nodes || "N/A"
+        });
 
         // Snap Marker về đúng điểm đầu/cuối của đường đi thực tế
         const actualStart = data.path[0];
@@ -271,13 +273,15 @@ function App() {
                 </select>
             </div>
 
-            {/* BẢNG KẾT QUẢ THỐNG KÊ (Chỉ đo thời gian) */}
+            {/* BẢNG KẾT QUẢ THỐNG KÊ (Đo số đỉnh duyệt qua) */}
             {routeStats && (
                 <div style={{ marginTop: '10px' }}>
-                    <div style={{ background: 'white', padding: '12px', borderRadius: '6px', border: '1px solid #eee', textAlign: 'center' }}>
-                        <div style={{ fontSize: '12px', color: '#7f8c8d', marginBottom: '4px' }}>⏱️ Thời gian chạy thuật toán</div>
-                        <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#e74c3c' }}>
-                            {routeStats.execution_time_ms} ms
+                    <div style={{ background: 'white', padding: '12px', borderRadius: '6px', border: '1px solid #eee', textAlign: 'center', borderLeft: '4px solid #e74c3c' }}>
+                        <div style={{ fontSize: '13px', color: '#7f8c8d', marginBottom: '4px' }}>
+                            📊 Số đỉnh thuật toán đã duyệt
+                        </div>
+                        <div style={{ fontSize: '22px', fontWeight: 'bold', color: '#e74c3c' }}>
+                            {routeStats.visited_count} <span style={{ fontSize: '14px', color: '#2c3e50' }}>đỉnh</span>
                         </div>
                     </div>
                 </div>

@@ -31,12 +31,11 @@ class AStarSolver:
     def solve(self, start_node, goal_node, cost_fn=None, return_history=False):
         """
         Tìm đường đi tối ưu A* với chi phí động.
-        Thêm tham số return_history để theo dõi số đỉnh đã duyệt.
         """
         # Kiểm tra node đầu cuối có tồn tại không
         if start_node not in self.nodes or goal_node not in self.nodes:
             print(f"Lỗi: Node {start_node} hoặc {goal_node} không tồn tại trong dữ liệu.")
-            return (None, []) if return_history else None
+            return (None, 0) if return_history else None
 
         # Priority Queue: (f_score, current_node)
         open_set = []
@@ -55,8 +54,8 @@ class AStarSolver:
         # Tập hợp các node đã xử lý xong
         closed_set = set()
         
-        # Mảng lưu vết các đỉnh đã được lấy ra khỏi open_set để thống kê
-        visited_order = []
+        # Biến đếm số lượng đỉnh ĐÃ RÚT RA khỏi hàng đợi để xử lý
+        visited_count = 0
 
         while open_set:
             # Lấy node có f_score thấp nhất
@@ -68,12 +67,12 @@ class AStarSolver:
                 
             # Ghi nhận đỉnh đang được quét
             if return_history:
-                visited_order.append(current)
+                visited_count += 1
 
             # Nếu đã đến đích
             if current == goal_node:
                 path = self._reconstruct_path(came_from, current)
-                return (path, visited_order) if return_history else path
+                return (path, visited_count) if return_history else path
             
             closed_set.add(current)
 
@@ -111,9 +110,9 @@ class AStarSolver:
                     
                     heapq.heappush(open_set, (f_score[neighbor], neighbor))
 
-        # Không tìm thấy đường đi (có thể do bị bao vây bởi các đoạn ngập lụt)
+        # Không tìm thấy đường đi
         if return_history:
-            return None, visited_order
+            return None, visited_count
         return None
 
     def _reconstruct_path(self, came_from, current):
